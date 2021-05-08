@@ -9,7 +9,7 @@ import "./styles/style.css";
 import taskFieldTemplate from "./templates/taskField.html";
 import noAccessTemplate from "./templates/noAccess.html";
 import { User } from "./models/User";
-import { generateTestUser } from "./utils";
+import { generateUser } from "./utils";
 import { State } from "./state";
 import { authUser } from "./services/auth";
 import { TaskController } from "./controllers/TaskController"
@@ -19,7 +19,9 @@ export const appState = new State();
 
 const loginForm = document.querySelector("#app-login-form");
 
-//generateTestUser(User);
+//сгенерили изначально
+//generateUser(new User("admin","123",true));
+//generateUser(new User("test","123",false));
 
 //обработчики событий
 loginForm.addEventListener("submit", function (e) {
@@ -36,8 +38,7 @@ loginForm.addEventListener("submit", function (e) {
     fieldHTMLContent = taskFieldTemplate;
       //работа с задачами
     document.querySelector("#content").innerHTML = taskFieldTemplate;
-    console.log(getTasksFromStorage(appState.currentUser.id, 0));
-   // const taskController = new TaskController(appState.currentUser.id, getTasksFromStorage(appState.currentUser.id, 0), getTasksFromStorage(appState.currentUser.id, 1), getTasksFromStorage(appState.currentUser.id, 2));
+    const taskController = new TaskController(appState.currentUser.id, getTasksFromStorage(appState.currentUser.id, 0), getTasksFromStorage(appState.currentUser.id, 1), getTasksFromStorage(appState.currentUser.id, 2));
   }
 
 });

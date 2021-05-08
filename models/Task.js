@@ -9,8 +9,7 @@ import {addToStorage } from "../utils";
 //type = 2 - Finished
 
 export class Task {
-    constructor(taskText, user, type) {
-      this.id = uuid();
+    constructor(guid, taskText, user, type) {
       this.text = taskText;
       this.user = user;
       this.storageKey = "task";
@@ -22,8 +21,20 @@ export class Task {
       {
         this.type = 0;
       }
-      addToStorage(this, this.storageKey);
+
+      if(guid == null)
+      {
+        this.id = uuid();
+        addToStorage(this, this.storageKey);
+      }  else {
+        this.id = guid;
+      }      
+
       console.log(`создал ${this.id}:${this.text}`);
+    }
+
+    getStorageKey(){
+        return this.storageKey;
     }
 
     getId() {

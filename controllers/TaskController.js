@@ -25,8 +25,6 @@ export class TaskController{
         this.finishedList = new TaskList(this.user, 2, this.finishedListHtml);
         this.tasks = [];
 
-        console.log(readyList);
-
         this.createLists(readyList, inProgressList, finishedList);
         this.checkDropDowns();
         this.updateStats();
@@ -39,7 +37,7 @@ export class TaskController{
     //вкл/выкл дропдауны
     checkDropDowns() {
         this.readyList.taskCount() > 0 ? this.progressBtn.disabled = false : this.progressBtn.disabled = true;            
-        this.finishedList.taskCount() > 0 ? this.finishedBtn.disabled = false : this.finishedBtn.disabled = true; 
+        this.inProgressList.taskCount() > 0 ? this.finishedBtn.disabled = false : this.finishedBtn.disabled = true; 
     }
 
     //отображаем статистику по задачам:
@@ -52,17 +50,17 @@ export class TaskController{
     //предзаполняем списки задач
     createLists(readyList, inProgressList, finishedList)
     {
-        if(readyList !==null && readyList.isArray() && readyList.length > 0)
+        if(readyList !==null && Array.isArray(readyList) && readyList.length > 0)
         {
             this.readyList.appendTasks(readyList);
             this.readyList.viewTasks();
         }
-        if(inProgressList !==null && inProgressList.isArray() && inProgressList.length > 0)
+        if(inProgressList !==null && Array.isArray(inProgressList) && inProgressList.length > 0)
         {
             this.inProgressList.appendTasks(inProgressList);
             this.inProgressList.viewTasks();
         }
-        if(finishedList !==null && finishedList.isArray() && finishedList.length > 0)
+        if(finishedList !==null && Array.isArray(finishedList) && finishedList.length > 0)
         {
             this.finishedList.appendTasks(finishedList);
             this.finishedList.viewTasks();
@@ -90,7 +88,7 @@ export class TaskController{
             })
         })
     }
-
+    //создание новой задачи
     getTaskName(){
         this.readyBtn.innerHTML = "Submit";
         let newTask = document.createElement("input");

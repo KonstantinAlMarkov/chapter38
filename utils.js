@@ -1,3 +1,5 @@
+import { User } from "./models/User";
+
 export const getFromStorage = function (key) {
   return JSON.parse(localStorage.getItem(key) || "[]");
 };
@@ -8,24 +10,35 @@ export const addToStorage = function (obj, key) {
   localStorage.setItem(key, JSON.stringify(storageData));
 };
 
-export const generateTestUser = function (User) {
-  localStorage.clear();
-  const testUser = new User("test", "qwerty123");
-  User.save(testUser);
+//обновление статуса задачи при ёё переносе по спискам
+export const updateInToStorage = function (objIdkey, objIdValue, key, param, value) {
+  const storageData = getFromStorage(key);
+  if(storageData !== null)
+  {
+    storageData.forEach(element => {
+      if(element[objIdkey] == objIdValue)
+      {
+        element[param] = value;
+        localStorage.setItem(key, JSON.stringify(storageData));
+        return;
+      };
+    });    
+  }
+};
+
+export const generateUser = function (user) {
+  //localStorage.clear();
+ // const testUser = new User("test", "qwerty123", n);
+ JSON.stringify(user); 
+  User.save(user);
 };
 
 //считываем все задачи
 export const getTasksFromStorage = function (user, listNum) {
   let allTasks = JSON.parse(localStorage.getItem("task") || "[]");
   let returnList = [];
-  
-  console.log(user);
-  console.log(listNum);
 
   allTasks.forEach(element => {
-
-    console.log(element);  
-
     if(element.user == user && element.type==listNum){
       returnList.push(element);
     };

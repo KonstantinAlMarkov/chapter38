@@ -1,4 +1,5 @@
 import { Task } from "./Task";
+import { updateInToStorage } from "../utils";
 
 //Класс для управления конкретным списком задач
 //status = 0 - ready
@@ -46,7 +47,7 @@ export class TaskList {
         {
             taskText = 'Не было задано';
         }
-        let newTask = new Task(taskText, this.user, this.status);
+        let newTask = new Task(null, taskText, this.user, this.status);
         this.tasks.push(newTask);
         return newTask;
     }
@@ -54,7 +55,11 @@ export class TaskList {
     //добавить список существующих задач
     appendTasks(taskList)
     {
-        this.tasks = taskList;
+        console.log(taskList.lenght);
+        taskList.forEach(task => {                   
+            let newTask = new Task(task.id,task.text,task.user,task.type);
+            this.tasks.push(newTask);
+        });
     }
 
     //добавление существующей задачи
@@ -62,6 +67,7 @@ export class TaskList {
     {
         task.setType(this.status);
         this.tasks.push(task);
+        updateInToStorage("id", task.getId(), task.getStorageKey(), "type",this.status);
         return true;
     }
 
